@@ -5,7 +5,7 @@ const schema = mongoose.Schema;
 const noteSchema = schema({
     title: {
         type: String,
-        required: true
+        required: [true, 'Title must be mandatory.']
     },
     desc: {
         type: String
