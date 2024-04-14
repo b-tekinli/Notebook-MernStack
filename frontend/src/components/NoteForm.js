@@ -18,17 +18,22 @@ export default function NoteForm() {
             }
         });
 
-        const json = await response.json();
+        try {
+            const json = await response.json();
 
-        if (!response.ok) {
-            setError(json.error);
-        }
+            if (!response.ok) {
+                setError(json.error || "Something went wrong!");
+            }
 
-        if (response.ok) {
-            setError(null);
-            setTitle('');
-            setDesc('');
-            console.log('New note added.', json);
+            if (response.ok) {
+                setError(null);
+                setTitle('');
+                setDesc('');
+                console.log('New note added.', json);
+            }
+        } catch (err) {
+            setError('An unexpected error occurred');
+            console.log('Error parsing JSON: ', err);
         }
     }
 
@@ -45,7 +50,7 @@ export default function NoteForm() {
                 <input type="text" onChange={(e) => setDesc(e.target.value)} value={desc} />
             </div>
         </div>
-        
+
         <button type="submit">ADD</button>
 
         {error && <div className="error">{error}</div>}
